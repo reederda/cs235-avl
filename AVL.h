@@ -9,6 +9,7 @@ class AVL :
 {
 public:
 		Node * root;
+
 	AVL() {
 		root = NULL;
 	}
@@ -27,14 +28,17 @@ public:
 
 	/*
 	* Attempts to add the given int to the AVL tree
+	* Rebalances the tree if data is successfully added
 	*
 	* @return true if added
 	* @return false if unsuccessful (i.e. the int is already in tree)
 	*/
 	bool add(int data);
 	bool add_function(Node*& n, int value);
+
 	/*
 	* Attempts to remove the given int from the AVL tree
+	* Rebalances the tree if data is successfully removed
 	*
 	* @return true if successfully removed
 	* @return false if remove is unsuccessful(i.e. the int is not in the tree)
@@ -46,4 +50,11 @@ public:
 	*/
 	void clear();
 	void clear_function(Node* n);
+	int setHeight(Node*& n);
+
+	void balanceRight(Node* n);
+	void balanceLeft(Node* n);
+	void rotateRight(Node* n);
+	void rotateLeft(Node* n);
+
 };

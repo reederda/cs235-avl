@@ -11,12 +11,18 @@ public:
 	Node * leftChild;
 	Node * rightChild;
 	int data;
+	int height;
+
 	Node(int value) {
+		height = 0;
 		data = value;
 		leftChild = NULL;
 		rightChild = NULL;
 	}
-	~Node() {}
+	~Node()
+	{
+
+	}
 
 
 	/*
@@ -42,5 +48,6 @@ public:
 
 
 	int getHeight();
+	int getBalance();
 };
 #endif

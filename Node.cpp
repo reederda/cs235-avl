@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include "Node.h"
 
 	/*
@@ -43,5 +44,45 @@
 	*/
 	int Node::getHeight()
 	{
-		return 0;
+		int leftHeight;
+		int rightHeight;
+
+		if (leftChild == NULL)
+		{
+			leftHeight = 0;
+		}
+		else
+			leftHeight = leftChild->getHeight();
+
+		if (rightChild == NULL)
+		{
+			rightHeight = 0;
+		}
+		else
+			rightHeight = rightChild->getHeight();
+
+		return max(leftHeight, rightHeight) + 1;
+	}
+
+
+	int Node::getBalance()
+	{
+		int right;
+		int left;
+
+		if (rightChild != NULL)
+		{
+			right = rightChild->getHeight();
+		}
+		else
+		right = 0;
+
+		if (leftChild != NULL)
+		{
+			left = leftChild->getHeight();
+		}
+		else
+		left = 0;
+
+		return right - left;
 	}
