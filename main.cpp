@@ -69,6 +69,11 @@ void parse_instruction(std::string temp, std::ofstream &ofs, AVL* aptr) {
 		ss >> valToAdd;
 		if (aptr->add(valToAdd)) {
 			ofs << temp << " True" << std::endl;
+			ofs << temp << "\n" << BSTtoString(aptr) << std::endl;
+
+
+
+
 		}
 		else {
 			ofs << temp << " False" << std::endl;

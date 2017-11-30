@@ -1,15 +1,50 @@
 Add 1 True
+Add 1
+0:  1 
+
 Add 2 True
+Add 2
+0:  1 
+
 Add 3 True
+Add 3
+0:  1 
+
 Add 1 False
 PrintBST
 0:  1 
 
 Add 4 True
+Add 4
+0:  1 
+
 Add 5 True
+Add 5
+0:  1 
+
 Add 6 True
+Add 6
+0:  1 
+
 Add 10 True
+Add 10
+0:  1 
+
 PrintBST
 0:  1 
 
 Add 8 True
+Add 8
+0:  1 
+
+Add 7 True
+Add 7
+0:  1 
+
+Add 9 True
+Add 9
+0:  1 
+
+PrintBST
+0:  1 
+
