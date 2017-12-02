@@ -44,23 +44,17 @@
 	*/
 	int Node::getHeight()
 	{
-		int leftHeight;
-		int rightHeight;
+		int leftHeight = 0;
+		int rightHeight = 0;
 
-		if (leftChild == NULL)
+		if (leftChild != NULL)
 		{
-			leftHeight = 0;
-		}
-		else
 			leftHeight = leftChild->getHeight();
-
-		if (rightChild == NULL)
-		{
-			rightHeight = 0;
 		}
-		else
+		if (rightChild != NULL)
+		{
 			rightHeight = rightChild->getHeight();
-
+		}
 		return max(leftHeight, rightHeight) + 1;
 	}
 

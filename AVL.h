@@ -50,11 +50,10 @@ public:
 	*/
 	void clear();
 	void clear_function(Node* n);
-	int setHeight(Node*& n);
 
 	void balanceRight(Node* n);
 	void balanceLeft(Node* n);
-	void rotateRight(Node* n);
-	void rotateLeft(Node* n);
+	void rotateRight(Node*& n);
+	void rotateLeft(Node*& n);
 
 };

@@ -37,52 +37,45 @@ bool AVL::add_function(Node*& n, int value)
 	if (n == NULL)
 	{
 		n = new Node(value);
-		n->height = 1;
+		n->height = 0;
 		return true;
 	}
+
 	if (n->data == value)
 	{
 		return false;
 	}
+
 	if (n->data > value)
 	{
 		bool fluff = add_function(n->leftChild, value);
 		if (fluff == true)
 		{
-			setHeight(n);
-			//cout << "n height: " << n->height << endl;
-			if (n->getHeight() < -1)
-			balanceLeft(n);
-			if (n->getHeight() > 1)
-			balanceRight(n);
-			setHeight(n);
+			if (n->getBalance() > 1)
+				balanceLeft(n);
+			if (n->getBalance() < -1)
+				balanceRight(n);
 		}
 		return true;
 	}
 
 	if (n->data < value)
 	{
-		//cout << "n height: " << n->height << endl;
 		bool fluff2 = add_function(n->rightChild, value);
 		if (fluff2 == true)
 		{
-			setHeight(n);
-			//cout << "n height 2: " << n->height << endl;
-			if (n->getHeight() < -1)
-			balanceLeft(n);
-			if (n->getHeight() > 1)
-			balanceRight(n);
-			setHeight(n);
+			if (n->getBalance() > 1)
+				balanceLeft(n);
+			if (n->getBalance() < -1)
+				balanceRight(n);
+
 		}
 		return true;
 	}
-
-	setHeight(n);
-	/*		if (n->getHeight() < -1)
-	balanceLeft(n);
-	if (n->getHeight() > 1)
-	balanceRight(n);
-	setHeight(n);*/
+	if (n->getBalance() > 1)
+		balanceLeft(n);
+	if (n->getBalance() < -1)
+		balanceRight(n);
 	return false;
 }
 
@@ -113,12 +106,12 @@ bool AVL::remove_function(Node*& n, int value)
 		bool fluff3 = remove_function(n->leftChild, value);
 		if (fluff3 == true)
 		{
-			setHeight(n);
-			if (n->leftChild != NULL)
-			balanceLeft(n);
-			if (n->rightChild != NULL)
-			balanceRight(n);
-			setHeight(n);
+
+			//if (n->leftChild != NULL)
+			//balanceLeft(n);
+			//if (n->rightChild != NULL)
+			//balanceRight(n);
+
 		}
 		return fluff3;
 	}
@@ -127,12 +120,11 @@ bool AVL::remove_function(Node*& n, int value)
 		bool fluff4 = remove_function(n->rightChild, value);
 		if (fluff4 == true)
 		{
-			setHeight(n);
-			if (n->leftChild != NULL)
-			balanceLeft(n);
-			if (n->rightChild != NULL)
-			balanceRight(n);
-			setHeight(n);
+
+			//if (n->leftChild != NULL)
+			//balanceLeft(n);
+			//if (n->rightChild != NULL)
+			//balanceRight(n);
 		}
 		return fluff4;
 	}
@@ -170,7 +162,6 @@ bool AVL::remove_function(Node*& n, int value)
 
 	n->data = temp->data;
 	delete temp;
-	setHeight(n);
 
 	return true;
 }
@@ -189,6 +180,7 @@ void AVL::clear_function(Node* n)
 	{
 		return;
 	}
+
 	if (n->leftChild != NULL)
 	{
 		clear_function(n->leftChild);
@@ -201,63 +193,73 @@ void AVL::clear_function(Node* n)
 	return;
 }
 
-int AVL::setHeight(Node*& n)
-{
-	n->height = n->getHeight();
-	return n->height;
-}
 
 void AVL::balanceRight(Node* n) //right-right and right-left
 {
-	if (n->rightChild != NULL)
+	if (n->rightChild != NULL)//right-left
 	{
 		if (n->rightChild->getBalance() < 0)
 		{
-			if (n->rightChild->leftChild->getBalance() > 0)
+			if (n->rightChild->leftChild != NULL)
 			{
-				cout << "N = " << n->data << endl;
-				cout << "N->rightChild = " << n->rightChild->data << endl;
-				cout << "Rotating Right" << endl;
-				rotateRight(n->rightChild);
+				if (n->rightChild->leftChild->getBalance() > 0)
+				{
+					rotateRight(n->rightChild);
+				}
 			}
 		}
-		cout << "N = " << n->data << endl;
-		//cout << "N->leftChild = " << n->leftChild->data << endl;
-		cout << "Rotating Left" << endl;
 		rotateLeft(n);
 	}
+
+	if (n->rightChild != NULL)//right-right
+	{
+		if (n->rightChild->getBalance() > 0)
+		{
+			if (n->rightChild->rightChild != NULL)
+			{
+				if (n->rightChild->rightChild->getBalance() > 0)
+				{
+					rotateRight(n->rightChild);
+				}
+			}
+		}
+		rotateRight(n);
+	}
+
 }
 
 void AVL::balanceLeft(Node* n) //left-left and left-right
 {
-	if (n->leftChild != NULL)
+	if (n->leftChild != NULL && n->leftChild->getBalance() > 0)
 	{
-		if (n->leftChild->getBalance() > 0)
-		{
-			if (n->leftChild->rightChild->getBalance() < 0)
+			if (n->leftChild->rightChild != NULL && n->leftChild->rightChild->getBalance() < 0)
 			{
-				cout << "Rotating Left" << endl;
 				rotateLeft(n->leftChild);
 			}
-		}
-		cout << "Rotating Right" << endl;
 		rotateRight(n);
 	}
 }
 
 
-void AVL::rotateRight(Node* n)
+//THESE ARE GOOD EXCEPT FOR HEIGHT IMPLEMENTATION
+void AVL::rotateRight(Node*& n)
 {
 	Node* temp = n->leftChild;
 	n->leftChild = temp->rightChild;
 	temp->rightChild = n;
+		cout << n->rightChild->height << endl;
 	n = temp;
+		cout << n->rightChild->height << endl;
+	n->rightChild->height++;
 }
 
-void AVL::rotateLeft(Node* n)
+void AVL::rotateLeft(Node*& n)
 {
 	Node* temp = n->rightChild;
 	n->rightChild = temp->leftChild;
 	temp->leftChild = n;
 	n = temp;
+	cout << n->leftChild->height << endl;
+	n->leftChild->height++;
+	cout << n->leftChild->height << endl;
 }
