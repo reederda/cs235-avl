@@ -106,12 +106,10 @@ bool AVL::remove_function(Node*& n, int value)
 		bool fluff3 = remove_function(n->leftChild, value);
 		if (fluff3 == true)
 		{
-
-			//if (n->leftChild != NULL)
-			//balanceLeft(n);
-			//if (n->rightChild != NULL)
-			//balanceRight(n);
-
+			if (n->getBalance() > 1)
+				balanceLeft(n);
+			if (n->getBalance() < -1)
+				balanceRight(n);
 		}
 		return fluff3;
 	}
@@ -120,11 +118,10 @@ bool AVL::remove_function(Node*& n, int value)
 		bool fluff4 = remove_function(n->rightChild, value);
 		if (fluff4 == true)
 		{
-
-			//if (n->leftChild != NULL)
-			//balanceLeft(n);
-			//if (n->rightChild != NULL)
-			//balanceRight(n);
+			if (n->getBalance() > 1)
+				balanceLeft(n);
+			if (n->getBalance() < -1)
+				balanceRight(n);
 		}
 		return fluff4;
 	}
@@ -222,22 +219,55 @@ void AVL::balanceRight(Node* n) //right-right and right-left
 					rotateRight(n->rightChild);
 				}
 			}
+			rotateRight(n);
 		}
-		rotateRight(n);
+		//rotateRight(n);
 	}
 
 }
 
 void AVL::balanceLeft(Node* n) //left-left and left-right
 {
-	if (n->leftChild != NULL && n->leftChild->getBalance() > 0)
+	/*if (n->leftChild != NULL && n->leftChild->getBalance() > 0)
 	{
 			if (n->leftChild->rightChild != NULL && n->leftChild->rightChild->getBalance() < 0)
 			{
 				rotateLeft(n->leftChild);
 			}
 		rotateRight(n);
+	}*/
+
+	if (n->leftChild != NULL)//left-right
+	{
+		if (n->leftChild->getBalance() > 0)
+		{
+			if (n->leftChild->rightChild != NULL)
+			{
+				if (n->leftChild->rightChild->getBalance() < 0)
+				{
+					rotateLeft(n->leftChild);
+				}
+			}
+			rotateRight(n);
+		}
+		//rotateRight(n);
 	}
+
+	if (n->leftChild != NULL)//left-left
+	{
+		if (n->leftChild->getBalance() < 0)
+		{
+			if (n->leftChild->leftChild != NULL)
+			{
+				if (n->leftChild->leftChild->getBalance() < 0)
+				{
+					rotateLeft(n->leftChild);
+				}
+			}
+		}
+		rotateLeft(n);
+	}
+
 }
 
 
