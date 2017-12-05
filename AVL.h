@@ -1,6 +1,7 @@
 #include "NodeInterface.h"
 #include "Node.h"
 #include "AVLInterface.h"
+#include <string>
 
 using namespace std;
 
@@ -49,11 +50,12 @@ public:
 	* Removes all nodes from the tree, resulting in an empty tree.
 	*/
 	void clear();
-	void clear_function(Node* n);
+	void clear_function(Node*& n);
 
-	void balanceRight(Node* n);
-	void balanceLeft(Node* n);
+	void balanceRight(Node*& n);
+	void balanceLeft(Node*& n);
 	void rotateRight(Node*& n);
 	void rotateLeft(Node*& n);
-
+	void balance(Node*& n);
+	Node* fosterParent(Node*& n);
 };
